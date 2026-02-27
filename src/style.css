@@ -1,0 +1,58 @@
+body {
+    background-color: #222222;
+    color: white;
+    margin: 0;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/* Navbar area*/
+
+nav {
+    display: flex;
+    margin: 0;
+    background-color: black;
+    border-bottom: white 3px solid;
+}
+/*Formats subcategories*/
+.category-costs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: .5em;
+    margin: 1em;
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(2, 2fr);
+    grid-template-rows: repeat(2, 2fr);
+    gap: 3px;
+}
+
+section {
+    border-style: solid;
+    background-color: black;
+    margin: 1em;
+}
+
+section>h3 {
+    margin: 1.6em;
+}
+
+.category-costs> label {
+    align-self: center;
+    text-wrap: nowrap;
+}
+
+.category-costs> :is(select, input) {
+    padding: .5rem;
+    border: #B130FC 3px solid;
+    border-radius: .5rem;
+}
+
+.category-costs > input {
+    width: 6rem;
+}
