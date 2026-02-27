@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="./app.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <img src="" alt="EECU Icon">
+        <h1>Budget Calculator</h1>
+    </header>
+    <section id="income-section"> <!-- This section is for the income money category -->
+        <h3>Income Money</h3>
+        <section class="category-costs" id="incoming-money">
+            <labeled-input name="Income"></labeled-input>
+            <labeled-input name="Side Job"></labeled-input>
+            <labeled-input name="Other"></labeled-input>
+            <labeled-input name="Other"></labeled-input>
+            <labeled-input name="Other"></labeled-input>
+            <labeled-input name="Other"></labeled-input>
+        </section>
+    </section>
+    <section id="graph-data"> <!-- This section is for the graph -->
+        <h3>Everything</h3>
+            <ul>
+                <li>Income Money (<span id="total-income-money">40</span>%)</li>
+                <li>Bills (<span id="total-bills">30</span>%)</li>
+                <li>Spent Money (<span id="total-spent-money">30</span>%)</li>
+            </ul>
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+    </section>
+    <section id="bills-section"> <!-- This section is for the bills category -->
+        <h3>Bills</h3>
+        <section class="category-costs" id="bills">
+            <labeled-input name="Income Tax"></labeled-input>
+            <labeled-input name="Mortgage / Rent"></labeled-input>
+            <labeled-input name="Debt"></labeled-input>
+            <labeled-input name="Utilities"></labeled-input>
+            <labeled-input name="Credit Card Bill"></labeled-input>
+            <labeled-input name="Other"></labeled-input>
+        </section>
+    </section>
+    <section id="spent-money-section"> <!-- This section is for the spent money category -->
+        <h3>Spend Money</h3>
+        <section class="category-costs" id="spent-money">
+            <labeled-input name="Food"></labeled-input>
+            <labeled-input name="Clothes"></labeled-input>
+            <labeled-input name="Transportation"></labeled-input>
+            <labeled-input name="Misc. Necessities"></labeled-input>
+            <labeled-input name="Entertainment"></labeled-input>
+            <labeled-input name="Other"></labeled-input>
+        </section>
+    </section>
+    <template> <!-- This is the template for the labeled input component -->
+        <label for="income">Income</label>
+        <input type="number" id="income" name="income" placeholder="$0">
+        <select name="occurance" id="income-occurance">
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+        </select>
+    </template>
+</body>
+
+</html>
