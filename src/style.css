@@ -1,7 +1,22 @@
+:root {
+    --background: #222;
+    --foreground: black;
+    --color: #B130FC;
+}
+
+@font-face {
+    font-family: "Geist";
+    src: url(fonts/Geist-Regular.woff2);
+}
+
 body {
-    background-color: #222222;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    background-color: var(--background);
     color: white;
     margin: 0;
+    font-family: Geist;
 }
 
 * {
@@ -13,7 +28,7 @@ body {
 nav {
     display: flex;
     margin: 0;
-    background-color: black;
+    background-color: var(--foreground);
     border-bottom: white 3px solid;
 }
 /*Formats subcategories*/
@@ -21,21 +36,21 @@ nav {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    gap: .5em;
-    margin: 1em;
+    gap: 2em .6em;
+    margin: 0.75em;
+    padding-right: 1em;
 }
 
 main {
     display: grid;
-    grid-template-columns: repeat(2, 2fr);
-    grid-template-rows: repeat(2, 2fr);
-    gap: 3px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: calc(5em * .3) calc(3em * .3);
 }
 
 section {
-    border-style: solid;
-    background-color: black;
-    margin: 1em;
+    background-color: var(--foreground);
+    margin: .5em;
 }
 
 section>h3 {
@@ -43,16 +58,27 @@ section>h3 {
 }
 
 .category-costs> label {
+    display: flex;
+    justify-self: flex-end;
     align-self: center;
     text-wrap: nowrap;
+    margin: 0;
+    padding: 0;
 }
 
 .category-costs> :is(select, input) {
     padding: .5rem;
-    border: #B130FC 3px solid;
+    border: var(--color) 3px solid;
+    background-color: var(--foreground);
+    color: white;
+    
     border-radius: .5rem;
 }
 
 .category-costs > input {
-    width: 6rem;
+    width: 6rem; 
+    &::placeholder{
+        color: #CCCCCC;
+    }
 }
+

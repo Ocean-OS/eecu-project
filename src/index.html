@@ -17,6 +17,8 @@
         </nav>
     </header>
     <main>
+
+        <!-- INCOMING MONEY -->
         <section id="income-section"> <!-- This section is for the income money category -->
             <h3>Incoming Money</h3>
             <div class="category-costs" id="incoming-money">
@@ -26,42 +28,44 @@
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
-                <label for="side-job">Side job</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <label for="side-job">Side Job</label>
+                <input type="number" id="side-job" name="side-job" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="other">Other</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="other" name="other" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="other">Other</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="other" name="other" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="other">Other</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="other" name="other" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="other">Other</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="other" name="other" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
             </div>
         </section>
+
+            <!-- EVERYTHING -->
         <section id="graph-data"> <!-- This section is for the graph -->
             <h3>Everything</h3>
             <ul>
-                <li>Income Money (<span id="total-income-money">40</span>%)</li>
+                <li>Incoming Money (<span id="total-income-money">40</span>%)</li>
                 <li>Bills (<span id="total-bills">30</span>%)</li>
                 <li>Spent Money (<span id="total-spent-money">30</span>%)</li>
             </ul>
@@ -69,82 +73,86 @@
                 <canvas id="myChart"></canvas>
             </div>
         </section>
+
+        <!-- BILLS -->
         <section id="bills-section"> <!-- This section is for the bills category -->
             <h3>Bills</h3>
             <div class="category-costs" id="bills">
                 <label for="income-tax">Income tax</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="income-tax" name="income-tax" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="mortgage-rent">Mortgage / Rent</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="mortgage-rent" name="mortgage-rent" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="debt">Debt</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="debt" name="debt" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="utilities">Utilities</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="utilities" name="utilities" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
-                <label for="creditcard-bill">Credit card bill</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <label for="creditcard-bill">Credit Card Bill</label>
+                <input type="number" id="creditcard-bill" name="creditcard-bill" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="other">Other</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="other" name="other" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
             </div>
         </section>
+
+        <!-- SPENT MONEY -->
         <section id="spent-money-section"> <!-- This section is for the spent money category -->
             <h3>Spent Money</h3>
             <div class="category-costs" id="spent-money">
                 <label for="food">Food</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="food" name="food" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="clothes">Clothes</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="clothes" name="clothes" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="transportation">Transportation</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="transportation" name="transportation" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="misc-necessities">Misc-Necessities</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="misc-necessities" name="misc-necessities" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="entertainment">Entertainment</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="entertainment" name="entertainment" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
                 <label for="other">Other</label>
-                <input type="number" id="income" name="income" placeholder="$0">
+                <input type="number" id="other" name="other" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
