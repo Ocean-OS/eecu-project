@@ -30,6 +30,12 @@ nav {
     margin: 0;
     background-color: var(--foreground);
     border-bottom: white 3px solid;
+    align-items: center;
+}
+nav img {
+    margin-left: 1em;
+    width: 2.1em;
+    height: 2.1em;
 }
 /*Formats subcategories*/
 .category-costs {
@@ -39,21 +45,25 @@ nav {
     gap: 2em .6em;
     margin: 0.75em;
     padding-right: 1em;
+    font-size: 1.2em;
 }
 
 main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: calc(5em * .3) calc(3em * .3);
+    gap: calc(5em * .2) calc(3em * .1);
+    padding: .8em 1.5em;
 }
 
 section {
     background-color: var(--foreground);
-    margin: .5em;
+    margin: 1em 1em;
 }
 
 section>h3 {
+    font-weight: 500;
+    font-size: 1.8em;
     margin: 1.6em;
 }
 
@@ -71,8 +81,9 @@ section>h3 {
     border: var(--color) 3px solid;
     background-color: var(--foreground);
     color: white;
-    
+    font-size: 1.1em;
     border-radius: .5rem;
+    font-family: Geist;
 }
 
 .category-costs > input {
@@ -81,4 +92,15 @@ section>h3 {
         color: #CCCCCC;
     }
 }
-
+#graph-data ul {
+    list-style-type: none;
+    & li:nth-child(1)::before {
+        content:"■";
+        color: orange;
+        width: 2em;
+        height: 2em;
+        background: orange;
+        padding: 0em .4em;
+        margin-right: .5em;
+    }
+}
