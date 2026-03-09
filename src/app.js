@@ -20,13 +20,13 @@ const data = {
 }
 
 
-// how graph is created with prior code
-const context = document.getElementById('graph');
-const graph = new Chart(context, {
-    type: 'pie',
-    data: data,
-    options: // name of options
-});
+// // how graph is created with prior code
+// const context = document.getElementById('graph');
+// const graph = new Chart(context, {
+//     type: 'pie',
+//     data: data,
+//     options: // name of options
+// });
 
 
 const nav_header = document.querySelector("nav>h1");
@@ -36,7 +36,7 @@ console.log(2);
 window.matchMedia("screen and (max-width: 600px)").addEventListener("change", (event) => {
     if (event.matches) {
         nav_header.textContent = sections.item(current_section).firstElementChild.textContent;
-        console.log(nav_header);
+        
     } else {
         nav_header.textContent = "Budget Calculator";
     }
@@ -48,5 +48,26 @@ if (window.matchMedia("screen and (max-width: 600px)").matches) {
 }
 
 next.addEventListener("click", () => {
+    navigate(current_section + 1);
 
 });
+
+back.addEventListener("click", () => {
+    navigate(current_section - 1);
+
+});
+
+function navigate (page)  {
+    if (page == current_section || page < 0 || page > sections.length - 1) {
+        return;
+    
+    }
+    console.log(sections, current_section);
+    sections.item(current_section).classList.remove("active");
+    sections.item(current_section).classList.add("mobile-inactive");
+    const section = sections.item(current_section = page);
+    section.classList.add("active");
+    section.classList.remove("mobile-inactive");
+    nav_header.textContent = sections.item(current_section).firstElementChild.textContent;
+
+}   
