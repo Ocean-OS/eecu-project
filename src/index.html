@@ -12,14 +12,16 @@
 <body>
     <header>
         <nav>
-            <img src="./imgs/eecu-logo.png" alt="EECU Icon" >
+            <button id="back-btn" class="mobile-active"></button>
+            <img src="./imgs/eecu-logo.png" alt="EECU Icon">
             <h1>Budget Calculator</h1>
+            <button id="next-btn" class="mobile-active"></button>
         </nav>
     </header>
     <main>
 
         <!-- INCOMING MONEY -->
-        <section id="income-section"> <!-- This section is for the income money category -->
+        <section id="income-section" class="active"> <!-- This section is for the income money category -->
             <h3>Incoming Money</h3>
             <div class="category-costs" id="incoming-money">
                 <label for="income">Income</label>
@@ -61,21 +63,9 @@
             </div>
         </section>
 
-            <!-- EVERYTHING -->
-        <section id="graph-data"> <!-- This section is for the graph -->
-            <h3>Everything</h3>
-            <ul>
-                <li>Incoming Money (<span id="total-income-money">40</span>%)</li>
-                <li>Bills (<span id="total-bills">30</span>%)</li>
-                <li>Spent Money (<span id="total-spent-money">30</span>%)</li>
-            </ul>
-            <div>
-                <canvas id="graph"></canvas>
-            </div>
-        </section>
-
+        
         <!-- BILLS -->
-        <section id="bills-section"> <!-- This section is for the bills category -->
+        <section id="bills-section" class="mobile-inactive"> <!-- This section is for the bills category -->
             <h3>Bills</h3>
             <div class="category-costs" id="bills">
                 <label for="income-tax">Income tax</label>
@@ -118,7 +108,7 @@
         </section>
 
         <!-- SPENT MONEY -->
-        <section id="spent-money-section"> <!-- This section is for the spent money category -->
+        <section id="spent-money-section" class="mobile-inactive"> <!-- This section is for the spent money category -->
             <h3>Spent Money</h3>
             <div class="category-costs" id="spent-money">
                 <label for="food">Food</label>
@@ -157,6 +147,19 @@
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
+            </div>
+        </section>
+
+        <!-- EVERYTHING -->
+        <section id="graph-data" class="mobile-inactive"> <!-- This section is for the graph -->
+            <h3>Everything</h3>
+            <div>
+                <ul>
+                    <li>Incoming Money (<span id="total-income-money">40</span>%)</li>
+                    <li>Bills (<span id="total-bills">30</span>%)</li>
+                    <li>Spent Money (<span id="total-spent-money">30</span>%)</li>
+                </ul>
+                <canvas id="graph"></canvas>
             </div>
         </section>
     </main>
