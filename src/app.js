@@ -40,11 +40,11 @@ window.matchMedia("screen and (max-width: 600px)").addEventListener("change", (e
     } else {
         nav_header.textContent = "Budget Calculator";
     }
+})
 
-});
 if (window.matchMedia("screen and (max-width: 600px)").matches) {
-    nav_header.textContent = sections.item(current_section).firstElementChild.textContent;
     console.log(1);
+    nav_header.textContent = sections.item(current_section).firstElementChild.textContent;
 }
 
 next.addEventListener("click", () => {
@@ -71,3 +71,4 @@ function navigate (page)  {
     nav_header.textContent = sections.item(current_section).firstElementChild.textContent;
 
 }   
+
