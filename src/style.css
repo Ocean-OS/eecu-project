@@ -1,7 +1,7 @@
 :root {
     --background: #222;
     --foreground: black;
-    --color: #B130FC;
+    --color: #b130fc;
 }
 
 @media screen and (max-width: 600px) {
@@ -28,7 +28,7 @@
         padding: 0 !important;
     }
 
-    section>.category-costs {
+    section > .category-costs {
         grid-template-columns: auto repeat(2, 1fr);
         padding-right: 0.5em;
         padding-left: 0.5em;
@@ -36,7 +36,7 @@
 }
 
 @font-face {
-    font-family: "Geist";
+    font-family: 'Geist';
     src: url(fonts/Geist-Regular.woff2);
 }
 
@@ -85,32 +85,30 @@ nav img {
 .category-costs {
     display: grid;
     /* grid-template-columns: repeat(6, auto); */
-    grid-template-columns: 8em 5em 6.5em 8em 5em 6.5em;
+    grid-template-columns: 7em 7em 9em 8em 7em 7em;
     grid-template-rows: repeat(3, 1fr);
-    gap: 2em .6em;
+    gap: 2em 0.6em;
     margin: 0.75em;
     padding-right: 1em;
     font-size: 1.2em;
 }
 
-
-#incoming-money  {
-    justify-content:center;
+/* #incoming-money {
+    justify-content: center;
     align-items: center;
-    align-content:center;
-    align-self:center;
-    display:flex;
+    align-content: center;
+    align-self: center;
+    display: flex;
     margin: 1em 1em;
     padding-bottom: 1.5em;
-}
-
+} */
 
 main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: calc(5em * .2) calc(3em * .1);
-    padding: .8em 1.5em;
+    gap: calc(5em * 0.2) calc(3em * 0.1);
+    padding: 0.8em 1.5em;
 }
 
 section {
@@ -119,13 +117,13 @@ section {
     padding-bottom: 1.5em;
 }
 
-section>h3 {
+section > h3 {
     font-weight: 500;
     font-size: 1.8em;
     margin: 1.6em;
 }
 
-.category-costs>label {
+.category-costs > label {
     display: flex;
     justify-self: flex-end;
     align-self: center;
@@ -134,28 +132,30 @@ section>h3 {
     padding: 0;
 }
 
-.category-costs> :is(select, input) {
-    padding: .5rem;
+.category-costs :is(select, input) {
+    padding: 0.5rem;
     border: var(--color) 3px solid;
     background-color: var(--foreground);
     color: white;
     font-size: 1.1em;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     font-family: Geist;
 }
 
-.category-costs>input {
+.category-costs > span {
+    display: flex;
+    gap: 0.6em;
+}
+
+.category-costs input {
     width: 6rem;
 
     &::placeholder {
-        color: #CCCCCC;
+        color: #cccccc;
     }
 }
 
 #income-section {
-    display:flex;
-    flex-direction: column;
-    align-self:center;
     order: 0;
 }
 
@@ -171,7 +171,7 @@ section>h3 {
     order: 3;
 }
 
-#graph-data>div {
+#graph-data > div {
     display: flex;
     flex-direction: row;
 }
@@ -184,33 +184,33 @@ section>h3 {
     list-style-type: none;
 
     & li:nth-child(1)::before {
-        content: "■";
-        color: #FF8B52;
+        content: '■';
+        color: #ff8b52;
         width: 2em;
         height: 2em;
-        background: #FF8B52;
-        padding: 0em .4em;
-        margin-right: .5em;
+        background: #ff8b52;
+        padding: 0em 0.4em;
+        margin-right: 0.5em;
     }
 
     & li:nth-child(2)::before {
-        content: "■";
-        color: #E93434;
+        content: '■';
+        color: #e93434;
         width: 2em;
         height: 2em;
-        background: #E93434;
-        padding: 0em .4em;
-        margin-right: .5em;
+        background: #e93434;
+        padding: 0em 0.4em;
+        margin-right: 0.5em;
     }
 
     & li:nth-child(3)::before {
-        content: "■";
-        color: #F1D951;
+        content: '■';
+        color: #f1d951;
         width: 2em;
         height: 2em;
-        background: #F1D951;
-        padding: 0em .4em;
-        margin-right: .5em;
+        background: #f1d951;
+        padding: 0em 0.4em;
+        margin-right: 0.5em;
     }
 }
 
@@ -224,30 +224,40 @@ section>h3 {
         background-color: var(--foreground);
         border-bottom: white 3px solid;
         align-items: center;
-    
+
         & button {
             background-color: var(--foreground);
-            display:block;
-            content: "";
+            display: block;
+            content: '';
             padding: 0;
             width: 1.25em;
             height: 1.25em;
-            border-top: .3em white solid;
+            border-top: 0.3em white solid;
             border-left: none;
-            border-right: .3em white solid;
+            border-right: 0.3em white solid;
             border-bottom: none;
-            &:first-of-type:is(body:has(main > section:first-of-type:is(.active)) > header > nav > button) {
+            &:first-of-type:is(
+                    body:has(main > section:first-of-type:is(.active))
+                        > header
+                        > nav
+                        > button
+                ) {
                 opacity: 0%;
             }
-            &:last-of-type:is(body:has(main > section:last-of-type:is(.active)) > header > nav > button) {
+            &:last-of-type:is(
+                    body:has(main > section:last-of-type:is(.active))
+                        > header
+                        > nav
+                        > button
+                ) {
                 opacity: 0%;
             }
         }
-    
+
         & #next-btn {
             rotate: 45deg;
         }
-    
+
         & #back-btn {
             rotate: -135deg;
         }
@@ -277,7 +287,7 @@ section>h3 {
         padding: 0;
     }
 
-    section>.category-costs {
+    section > .category-costs {
         /* grid-template-columns: auto repeat(2, 1fr); */
         grid-template-columns: 8em 5em 6.5em;
         padding-right: 0.5em;
