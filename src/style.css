@@ -93,6 +93,18 @@ nav img {
     font-size: 1.2em;
 }
 
+
+#incoming-money  {
+    justify-content:center;
+    align-items: center;
+    align-content:center;
+    align-self:center;
+    display:flex;
+    margin: 1em 1em;
+    padding-bottom: 1.5em;
+}
+
+
 main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -141,6 +153,9 @@ section>h3 {
 }
 
 #income-section {
+    display:flex;
+    flex-direction: column;
+    align-self:center;
     order: 0;
 }
 

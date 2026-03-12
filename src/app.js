@@ -3,6 +3,33 @@ const graph = document.querySelector("#graph")
 const next = document.querySelector('#next-btn');
 const back = document.querySelector('#back-btn');
 
+async function careerOptions () {
+    const selectCareer = document.getElementById('career-inputs');
+    const careerAnnualSalary = new Map();
+    try {
+        const response = await fetch ('https://eecu-data-server.vercel.app/data');
+        if (!response.ok) {
+            throw new Error ('Network response was not ok');
+        }
+
+        const users = await response.json();
+
+        users.forEach(user => {
+            careerAnnualSalary.set(user["Occupation"], user["Salary"]);
+            const option = new Option(user["Occupation"], user["Occupation"]);
+            selectCareer.add(option);
+        });
+
+        selectCareer.addEventListener('change', () => {
+            salary.textContent = careerAnnualSalary.get(selectCareer.value) || '';
+        })
+    } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+    }
+}
+
+careerOptions();
+
 const compiled = await WebAssembly.compileStreaming(await fetch('data:application/wasm;base64,AGFzbQEAAAABDwNefwFgAX8Bf2ACf38BfwIPAQNlbnYHc3lzY2FsbAABAwIBAgUEAQCACAYMAWQAAUEAQQD7BgALBxACBm1lbW9yeQIAA3N1bQABCl4BXAIBZAADfyABQQD7BwAhAgNAIAQgAGooAgAhBSACIAQgBfsOACAEQQFqIQQgBCABTA0AC0EAIQNBACEEA0AgAyACIAT7CwBqIQMgBEEBaiEEIAQgAUwNAAsgAw8L'));
 const { exports: { sum } } = await WebAssembly.instantiate(compiled, {
     env: {
@@ -47,7 +74,7 @@ console.log(2);
 window.matchMedia("screen and (max-width: 600px)").addEventListener("change", (event) => {
     if (event.matches) {
         nav_header.textContent = sections.item(current_section).firstElementChild.textContent;
-        
+
     } else {
         nav_header.textContent = "Budget Calculator";
     }
@@ -68,10 +95,10 @@ back.addEventListener("click", () => {
 
 });
 
-function navigate (page)  {
+function navigate(page) {
     if (page == current_section || page < 0 || page > sections.length - 1) {
         return;
-    
+
     }
     console.log(sections, current_section);
     sections.item(current_section).classList.remove("active");
@@ -81,5 +108,36 @@ function navigate (page)  {
     section.classList.remove("mobile-inactive");
     nav_header.textContent = sections.item(current_section).firstElementChild.textContent;
 
-}   
+}
+let current_chart;
+const chart_container = () => document.querySelector("#graph").getContext("2d");
 
+/*
+function updatePieChart() {
+    current_chart?.destroy();
+    current_chart = new Chart(chart_container(), {
+        type: 'pie',
+        data: {
+            datasets: [
+                {
+                    label: 'Monthly Expenses',
+                    data: categories.map(category =>
+                        category.inputs
+                            .values()
+                            .map(value => value.value)
+                            .reduce((a, b) => a + b, 0)
+                    )
+                }
+            ],
+            labels: categories.map(category => category.name)
+        }
+    });
+    console.log(categories.map(category =>
+        category.inputs
+            .values()
+            .map(value => value.value)
+            .reduce((a, b) => a + b, 0
+            )))
+}
+
+updatePieChart() */
