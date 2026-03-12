@@ -30,6 +30,16 @@ async function careerOptions () {
 
 careerOptions();
 
+const compiled = await WebAssembly.compileStreaming(await fetch('data:application/wasm;base64,AGFzbQEAAAABDwNefwFgAX8Bf2ACf38BfwIPAQNlbnYHc3lzY2FsbAABAwIBAgUEAQCACAYMAWQAAUEAQQD7BgALBxACBm1lbW9yeQIAA3N1bQABCl4BXAIBZAADfyABQQD7BwAhAgNAIAQgAGooAgAhBSACIAQgBfsOACAEQQFqIQQgBCABTA0AC0EAIQNBACEEA0AgAyACIAT7CwBqIQMgBEEBaiEEIAQgAUwNAAsgAw8L'));
+const { exports: { sum } } = await WebAssembly.instantiate(compiled, {
+    env: {
+        syscall() {
+
+        }
+    }
+});
+
+console.log(sum([1, 2, 3]));
 
 // const chart = new Chart(graph, {
 //     type: "pie", data: {
