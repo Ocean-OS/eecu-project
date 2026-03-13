@@ -11,10 +11,16 @@ const compiled = await WebAssembly.compile(compile(text));
 /** @type {Map<number, any>} */
 const objects = new Map();
 
-async function careerOptions() {
-    const selectCareer = document.getElementById('career-inputs');
-    const careerAnnualSalary = new Map();
-    const salary = selectCareer?.nextElementSibling?.firstElementChild;
+async function load_career_options() {
+    const career_list = /** @type {HTMLDataListElement} */ (
+        document.getElementById('career-inputs')
+    );
+    const input = /** @type {HTMLInputElement} */ (
+        career_list?.previousElementSibling
+    );
+    const salary = /** @type {HTMLInputElement} */ (
+        career_list?.parentElement?.nextElementSibling?.firstElementChild
+    );
     try {
         const response = await fetch(
             'https://eecu-data-server.vercel.app/data'
@@ -23,26 +29,26 @@ async function careerOptions() {
             throw new Error('Network response was not ok');
         }
 
-        const users = /** @type {Array<Record<String, number | string>>} */ (
-            await response.json()
-        );
-
-        users.forEach(user => {
-            careerAnnualSalary.set(user['Occupation'], user['Salary']);
-            const option = new Option(user['Occupation'], user['Occupation']);
-            selectCareer?.add(option);
-        });
-
-        selectCareer?.addEventListener('change', () => {
-            salary.value =
-                careerAnnualSalary.get(selectCareer.value) || '';
+        const users =
+            /** @type {Array<{ Salary: number; Occupation: string }>} */ (
+                await response.json()
+            );
+        for (const user of users) {
+            career_list.append(new Option(user.Occupation, user.Occupation));
+        }
+        input.addEventListener('input', () => {
+            salary.value = /** @type {number} */ (
+                /** @type {{ Occupation: string; Salary: number }} */ (
+                    users.find(user => user.Occupation === input.value)
+                ).Salary / 12
+            ).toFixed(2);
         });
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
     }
 }
 
-careerOptions();
+await load_career_options();
 
 let freed = 0;
 
@@ -56,13 +62,13 @@ function find_until_null(ptr) {
     let i = 0;
     while (i < buffer.byteLength) {
         if (buffer[i++] === 0) {
-            return i - 1;
+            return ptr + i - 1;
         }
     }
 }
 
 const {
-    exports: { sum, sum_category, memory: _memory }
+    exports: { sum: _sum, sum_category: _sum_category, memory: _memory, calculate: _calculate }
 } = await WebAssembly.instantiate(compiled, {
     env: {
         /**
@@ -88,6 +94,7 @@ const {
          * @param {number} property
          */
         'Reflect.get': (target, property) => {
+            console.log(target, objects);
             const object = objects.get(target);
             if (object === null || object === undefined) {
                 throw new TypeError('Cannot read properties of null');
@@ -98,12 +105,15 @@ const {
                     find_until_null(property)
                 )
             );
-            const value = Reflect.get(object, string);
+            const value = Reflect.get(object, string, object);
             if (value === null) {
                 objects.set(objects.size, null);
                 return objects.size - 1;
             }
-            objects.set(objects.size, new WeakRef(value));
+            if (typeof value === 'number') {
+                return value;
+            }
+            objects.set(objects.size, value);
             return objects.size - 1;
         },
         'Reflect.set': (
@@ -122,6 +132,28 @@ const {
             Reflect.set(object, key, v);
         },
         /**
+         * @param {number} iterable
+         * @param {number} ptr
+         */
+        place_iterable: (iterable, ptr) => {
+            const object = /** @type {IterableIterator<any>} */ (objects.get(iterable));
+            const int32array = new Int32Array(
+                /** @type {WebAssembly.Memory} */ (memory).buffer
+            );
+            let i = ptr;
+            for (const item of object) {
+                objects.set(objects.size, item);
+                int32array[i++] = objects.size - 1;
+            }
+            return;
+        },
+        /**
+         * @param {number} ptr
+         */
+        get_object: ptr => {
+            return objects.get(ptr);
+        },
+        /**
          * @param {number} ptr_to_selector
          */
         'document.querySelectorAll': ptr_to_selector => {
@@ -132,13 +164,16 @@ const {
                 )
             );
             const res = document.querySelectorAll(string);
-            const ptr = objects.size;
-            for (const element of res) {
-                objects.set(objects.size, element);
-            }
-            return ptr;
+            // console.log(res);
+            // const ptr = objects.size;
+            // for (const element of res) {
+            //     objects.set(objects.size, element);
+            // }
+            objects.set(objects.size, res);
+            return objects.size - 1;
         },
-        localStorage: (objects.set(objects.size, localStorage), objects.size - 1),
+        localStorage:
+            (objects.set(objects.size, localStorage), objects.size - 1),
         /**
          * @param {number} object
          */
@@ -172,6 +207,12 @@ const {
         }
     }
 });
+
+const sum = /** @type {(ptr: number, len: number) => number} */ (_sum);
+const sum_category = /** @type {(ptr: number, len: number) => number} */ (
+    _sum_category
+);
+const calculate = /** @type {() => number} */ (_calculate);
 
 const memory = /** @type {WebAssembly.Memory} */ (_memory);
 
@@ -227,7 +268,7 @@ console.log(
         }
     ])
 );
-console.log();
+console.log(calculate());
 
 // const chart = new Chart(graph, {
 //     type: "pie", data: {
@@ -259,7 +300,9 @@ const data = {
 //     options: // name of options
 // });
 
-const nav_header = document.querySelector('nav>h1');
+const nav_header = /** @type {HTMLHeadingElement} */ (
+    document.querySelector('nav>h1')
+);
 let current_section = 0;
 const sections = document.querySelectorAll('section');
 console.log(2);
@@ -267,8 +310,9 @@ window
     .matchMedia('screen and (max-width: 600px)')
     .addEventListener('change', event => {
         if (event.matches) {
-            nav_header.textContent =
-                sections.item(current_section)?.firstElementChild?.textContent;
+            nav_header.textContent = /** @type {string} */ (
+                sections.item(current_section)?.firstElementChild?.textContent
+            );
         } else {
             nav_header.textContent = 'Budget Calculator';
         }
@@ -276,8 +320,9 @@ window
 
 if (window.matchMedia('screen and (max-width: 600px)').matches) {
     console.log(1);
-    nav_header.textContent =
-        sections.item(current_section)?.firstElementChild?.textContent;
+    nav_header.textContent = /** @type {string} */ (
+        sections.item(current_section)?.firstElementChild?.textContent
+    );
 }
 
 next?.addEventListener('click', () => {
@@ -292,7 +337,7 @@ back?.addEventListener('click', () => {
  * @param {number} page
  */
 function navigate(page) {
-    if (page == current_section || page < 0 || page > sections.length - 1) {
+    if (page === current_section || page < 0 || page > sections.length - 1) {
         return;
     }
     console.log(sections, current_section);
@@ -301,12 +346,15 @@ function navigate(page) {
     const section = sections.item((current_section = page));
     section.classList.add('active');
     section.classList.remove('mobile-inactive');
-    nav_header.textContent =
-        sections.item(current_section)?.firstElementChild?.textContent;
+    nav_header.textContent = /** @type {string} */ (
+        sections.item(current_section)?.firstElementChild?.textContent
+    );
 }
 let current_chart;
 const chart_container = () =>
-    document.querySelector('#graph')?.getContext('2d');
+    /** @type {HTMLCanvasElement} */ (
+        document.querySelector('#graph')
+    )?.getContext('2d');
 
 /*
 function updatePieChart() {

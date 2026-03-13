@@ -25,9 +25,12 @@
             <h3>Incoming Money</h3>
             <div class="category-costs" id="incoming-money">
                 <label for="income">Income</label>
-                <select name="careers" id="career-inputs">
-                    <option id="career-options"></option>
-                </select>
+                <span class="input">
+                    <input list="career-inputs" />
+                    <datalist name="careers" id="career-inputs">
+                        <option id="career-options"></option>
+                    </datalist>
+                </span>
                 <span class="alternate">
                     <input type="number" id="income" name="income" placeholder="$0">
                     <select name="occurance" id="income-occurance">
@@ -135,7 +138,7 @@
                     <option value="monthly">Monthly</option>
                     <option value="yearly">Yearly</option>
                 </select>
-                <label for="misc-necessities">Misc-Necessities</label>
+                <label for="misc-necessities">Misc. Necessities</label>
                 <input type="number" id="misc-necessities" name="misc-necessities" placeholder="$0">
                 <select name="occurance" id="income-occurance">
                     <option value="monthly">Monthly</option>

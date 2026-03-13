@@ -4,37 +4,6 @@
     --color: #b130fc;
 }
 
-@media screen and (max-width: 600px) {
-    section:not(#income-section) {
-        display: none;
-    }
-
-    h3 {
-        display: none;
-    }
-    section {
-        background-color: var(--background) !important;
-        padding-bottom: 0;
-        display: flex;
-        flex-direction: column;
-        place-content: center;
-        margin-right: 0 !important;
-        margin-left: 0 !important;
-        padding: 0 !important;
-    }
-
-    main {
-        display: block !important;
-        padding: 0 !important;
-    }
-
-    section > .category-costs {
-        grid-template-columns: auto repeat(2, 1fr);
-        padding-right: 0.5em;
-        padding-left: 0.5em;
-    }
-}
-
 @font-face {
     font-family: 'Geist';
     src: url(fonts/Geist-Regular.woff2);
@@ -144,7 +113,22 @@ section > h3 {
 
 .category-costs > span {
     display: flex;
-    gap: 0.6em;
+    gap: 0.1em;
+    margin-right: 10em;
+    & > *:first-child {
+        width: 5.175em;
+        margin-right: 7em;
+        margin-left: -7em;
+    }
+    & > :last-child {
+        margin-right: 7em;
+        margin-left: -7em;
+    }
+    :is(* ~ &) {
+        margin-left: 24.5em;
+        padding-right: 0.6em;
+        justify-self: center;
+    }
 }
 
 .category-costs input {
@@ -215,6 +199,10 @@ section > h3 {
 }
 
 @media screen and (max-width: 600px) {
+    body,
+    main {
+        overflow-x: hidden;
+    }
     nav {
         display: flex;
 
@@ -224,6 +212,11 @@ section > h3 {
         background-color: var(--foreground);
         border-bottom: white 3px solid;
         align-items: center;
+
+        & h1 {
+            justify-self: center;
+            width: 10em;
+        }
 
         & button {
             background-color: var(--foreground);
@@ -288,8 +281,9 @@ section > h3 {
     }
 
     section > .category-costs {
-        /* grid-template-columns: auto repeat(2, 1fr); */
-        grid-template-columns: 8em 5em 6.5em;
+        grid-template-columns: 8em 7em 10em;
+        margin-right: 3em;
+        margin-left: -3em;
         padding-right: 0.5em;
         padding-left: 0.5em;
     }
