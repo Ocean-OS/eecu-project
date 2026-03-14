@@ -147,6 +147,10 @@ const {
             }
             return;
         },
+        /** @param {number} object */
+        to_number: object => {
+            return +objects.get(object);
+        },
         /**
          * @param {number} ptr
          */

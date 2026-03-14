@@ -18,6 +18,7 @@
     (import "env" "JSON.parse" (func $JSON.parse (param i32) (result i32)))
     (import "env" "localStorage" (global $localStorage i32))
     (import "env" "place_iterable" (func $place_iterable (param i32 i32)))
+    (import "env" "to_number" (func $to_number (param i32) (result f64)))
     (memory (export "memory") 2048)
     (memory $malloc_map 1024)
     (memory $freed_map 1024)
@@ -203,8 +204,12 @@
             )
         )
     )
-    (func $append_to_map (param $ptr i32) (param $size i32
-        ) (param $is_malloc i32)
+    (func $append_to_map
+        (param $ptr i32)
+        (param $size i32)
+        ;; i wish wasm had a boolean type, legitimately only need ONE of these 32 bits :/
+        ;; you only see bigger wastes of memory in electron apps nowadays...
+        (param $is_malloc i32)
         (local $i i32)
         (local.set $i
             (call $map_get
@@ -285,10 +290,18 @@
                 (unreachable)
             )
         )
+        ;; if there aren't any allocations or freed allocations, return the first pointer
         (if
-            (i32.eqz
-                (i32.load $freed_map
-                    (i32.const 4)
+            (i32.and
+                (i32.eqz
+                    (i32.load $malloc_map
+                        (i32.const 4)
+                    )
+                )
+                (i32.eqz
+                     (i32.load $freed_map
+                         (i32.const 4)
+                     )
                 )
             )
             (then
@@ -302,12 +315,14 @@
                 )
             )
         )
+        ;; search for a freed pointer of the requested size
         (local.set $freed_ptr
             (call $map_keyof
                 (local.get $size)
                 (i32.const 0)
             )
         )
+        ;; if one has been found, then clear the freed entry, append the entry to the malloc map, and return the pointer
         (if
             (local.tee $ptr
                 (i32.load $freed_map
@@ -330,6 +345,7 @@
                 )
             )
         )
+        ;; otherwise, find the highest pointer in the malloc map, add its size, and make an allocation of the requested size at that pointer
         (local.set $i
             (i32.const 0)
         )
@@ -422,6 +438,7 @@
                 )
             )
         )
+        ;; TODO grouping adjacent freed allocations to make larger freed allocations, etc etc
         (unreachable)
     )
     ;;; frees the memory at a given `$ptr` pointer to a memory allocation made with `$malloc`.
@@ -468,6 +485,8 @@
         )
         (return)
     )
+    ;; does anyone know what the identifiers here do? from what i can tell, the spec doesn't say. (although i haven't looked completely through it yet)
+    ;; (i'm just using it for documentation at the moment, though it'd be nice if they were globals that mapped to the pointers to these strings)
     (data $input_selector
         (i32.const 1024) ".active > .category-costs input[type=number]"
     )
@@ -600,7 +619,8 @@
             (local.get $res)
         )
     )
-    (func $calculate (export "calculate") (result i32)
+    ;;; and now, what you've all been waiting for: use the DOM to calculate the summation of the current category
+    (func $calculate (export "calculate") (result f64)
         (local $inputs i32)
         (local $input_values i32)
         (local $selects i32)
@@ -608,6 +628,11 @@
         (local $length i32)
         (local $to_sum i32)
         (local $i i32)
+        (local $select_value i32)
+        (local $res f64)
+        ;; i wish wasm had smaller data types to save on memory ;-;
+        ;; genuinely only need one of these bytes
+        (local $char i32)
         (local.set $inputs
             (call $document.querySelectorAll
                 (i32.const 1024)
@@ -652,15 +677,100 @@
             (call $malloc
                 (i32.mul
                     (local.get $length)
+                    (i32.const 16)
+                )
+            )
+        )
+        ;; allocate 7 bytes for the max select value of "monthly"
+        (local.set $select_value
+            (call $malloc 
+                (i32.const 7)
+            )
+        )
+        (loop $build_to_sum
+            (f64.store
+                (i32.add
+                    (local.get $i)
+                    (local.get $to_sum)
+                )
+                (call $to_number
+                    (call $Reflect.get
+                        (i32.load
+                            (i32.add
+                                (local.get $i)
+                                (local.get $inputs)
+                            )
+                        )
+                        (i32.const 1280)
+                    )
+                )
+            )
+            (call $place_iterable
+                (call $Reflect.get
+                    (i32.load
+                        (i32.add
+                            (local.get $i)
+                            (local.get $selects)
+                        )
+                    )
+                    (i32.const 1280)
+                )
+                (local.get $select_value)
+            )
+            (local.set $char
+                (i32.load8_s
+                    (local.get $select_value)
+                )
+            )
+            ;; if the first character is equal to 'y', then we know its a yearly value
+            (if
+                (i32.eq
+                    (local.get $char)
+                    (i32.const 121)
+                )
+                (then
+                    (f64.store
+                        (i32.add
+                            (i32.add
+                                (local.get $i)
+                                (i32.const 8)
+                            )
+                            (local.get $to_sum)
+                        )
+                        (f64.const 1)
+                    )
+                )
+            )
+            (br_if $build_to_sum 
+                (i32.lt_s
+                    (local.tee $i
+                        (i32.add
+                            (local.get $i)
+                            (i32.const 16)
+                        )
+                    )
+                    (i32.mul
+                        (local.get $length)
+                        (i32.const 16)
+                    )
+                )
+            )
+        )
+        (local.set $res
+            (call $sum_category
+                (local.get $to_sum)
+                (i32.mul
+                    (local.get $length)
                     (i32.const 8)
                 )
             )
         )
-        (loop $build_to_sum
-            
-        )
+        (call $free (local.get $select_values))
+        (call $free (local.get $input_values))
+        (call $free (local.get $to_sum))
+        (call $free (local.get $select_value))
         (return
-            (local.get $input_values)
+            (local.get $res)
         )
     )
 )
